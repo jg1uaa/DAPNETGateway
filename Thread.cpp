@@ -95,7 +95,12 @@ void* CThread::helper(void* arg)
 
 void CThread::sleep(unsigned int ms)
 {
-	::usleep(ms * 1000);
+  struct timespec ts;
+
+  ts.tv_sec = ms / 1000;
+  ts.tv_nsec = (ms % 1000) * 1000000;
+
+  ::nanosleep(&ts, NULL);
 }
 
 #endif
